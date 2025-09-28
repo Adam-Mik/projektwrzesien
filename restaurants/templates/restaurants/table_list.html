@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Stolików</title>
+</head>
+<body>
+    <h1>Dostępne Stoliki</h1>
+    <div id="tables-container"></div>
+
+    <script>
+        fetch('/api/tables/')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('tables-container');
+                if (data.length === 0) {
+                    container.innerHTML = '<p>Brak dostępnych stolików.</p>';
+                } else {
+                    const ul = document.createElement('ul');
+                    data.forEach(table => {
+                        const li = document.createElement('li');
+                        li.textContent = `Stolik nr ${table.table_number} w restauracji ${table.restaurant} - pojemność ${table.capacity}`;
+                        ul.appendChild(li);
+                    });
+                    container.appendChild(ul);
+                }
+            })
+            .catch(error => console.error('Błąd:', error));
+    </script>
+</body>
+</html>

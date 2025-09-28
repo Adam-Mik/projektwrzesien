@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Rezerwacji</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .booking { margin-bottom: 15px; border: 1px solid #ccc; padding: 10px; }
+        .booking-item { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Lista Rezerwacji</h1>
+    <div id="bookings-container">
+        </div>
+
+    <script>
+        // Adres API, które zwraca listę rezerwacji
+        const apiUrl = '/bookings/api/';
+
+        fetch(apiUrl)
+            .then(response => {
+                // Sprawdź, czy odpowiedź jest poprawna
+                if (!response.ok) {
+                    throw new Error('Błąd sieci lub serwera');
+                }
+                return response.json();
+            })
+            .then(bookings => {
+                const container = document.getElementById('bookings-container');
+                if (bookings.length === 0) {
+                    container.innerHTML = '<p>Brak wykonanych rezerwacji.</p>';
+                    return;
+                }
+
+                bookings.forEach((booking, index) => {
+                    // Tworzenie elementu dla każdej rezerwacji
+                    const bookingDiv = document.createElement('div');
+                    bookingDiv.className = 'booking';
+                    
+                    const bookingText = document.createTextNode(
+                        `(${index + 1}) Rezerwacja (ID użytkownika: ${booking.user}) - `
+                    );
+
+                    const restaurantLink = document.createElement('span');
+                    restaurantLink.className = 'booking-item';
+                    restaurantLink.textContent = `Restauracja ${booking.restaurant}`;
+
+                    const tableLink = document.createElement('span');
+                    tableLink.className = 'booking-item';
+                    tableLink.textContent = `- Stolik ${booking.table}`;
+
+                    bookingDiv.appendChild(bookingText);
+                    bookingDiv.appendChild(restaurantLink);
+                    bookingDiv.appendChild(tableLink);
+
+                    container.appendChild(bookingDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Wystąpił błąd podczas pobierania danych:', error);
+                const container = document.getElementById('bookings-container');
+                container.innerHTML = '<p>Nie udało się załadować rezerwacji. Spróbuj ponownie później.</p>';
+            });
+    </script>
+</body>
+</html>

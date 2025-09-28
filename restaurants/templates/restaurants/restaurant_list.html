@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Restauracji</title>
+</head>
+<body>
+    <h1>Dostępne Restauracje</h1>
+    <div id="restaurants-container"></div>
+
+    <script>
+        fetch('/api/restaurants/')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('restaurants-container');
+                if (data.length === 0) {
+                    container.innerHTML = '<p>Brak dostępnych restauracji.</p>';
+                } else {
+                    const ul = document.createElement('ul');
+                    data.forEach(restaurant => {
+                        const li = document.createElement('li');
+                        li.textContent = `${restaurant.name}`;
+                        ul.appendChild(li);
+                    });
+                    container.appendChild(ul);
+                }
+            })
+            .catch(error => console.error('Błąd:', error));
+    </script>
+</body>
+</html>
