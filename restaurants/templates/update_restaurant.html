@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block start %}
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  .text{
+    color: green;
+    font-weight: bold;
+  }
+</style>
+ 
+<div class="container mt-5">
+ 
+  <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h2 class="text  text-center"> Update Restaurant </h2>
+
+    <hr>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Restaurant name</label>
+      <input name="name" value="{{restaurant.name}}" type="text" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Restaurant description</label>
+      <textarea name="description" class="form-control" required>{{restaurant.description}}</textarea>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Restaurant address</label>
+      <textarea name="address" class="form-control" required>{{restaurant.address}}</textarea>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Restaurant phone_number</label>
+      <textarea name="phone_number" class="form-control" required>{{restaurant.phone_number}}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Update Restaurant</button>
+  </form>
+ 
+ 
+</div>
+
+{% endblock %}

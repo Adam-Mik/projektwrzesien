@@ -31,6 +31,14 @@ def table_list_view(request):
 
 
 #------------------------------ Additional Context -----------------------------#
+#TODO Sprawdź czy działa dodawanie
+def restaurants_table(request):
+    queryset = Restaurant.objects.all()
+    if request.GET.get('search'):
+        queryset = queryset.filter(name__icontains=request.GET.get('search'))
+
+    context = {'restaurants': queryset}
+    return render(request, 'restaurants_table.html', context)
 
 def restaurants(request):
     if request.method == 'POST':
@@ -56,26 +64,22 @@ def restaurants(request):
     return render(request, 'restaurants.html', context)
 
 
-# def delete_recipe(request, id):
-#     recipe = get_object_or_404(Recipe, id=id)
-#     recipe.delete()
-#     return redirect('/')
+def delete_restaurant(request, id):
+    restaurants = get_object_or_404(Restaurant, id=id)
+    restaurants.delete()
+    return redirect('/')
 
 
-# def update_recipe(request, id):
-#     recipe = get_object_or_404(Recipe, id=id)
-#     if request.method == 'POST':
-#         data = request.POST
-#         recipe_name = data.get('recipe_name')
-#         recipe_description = data.get('recipe_description')
-#         recipe_image = request.FILES.get('recipe_image')
+def update_restaurant(request, id):
+    restaurants = get_object_or_404(Restaurant, id=id)
+    if request.method == 'POST':
+        data = request.POST
+        restaurants.name = data.get('name')
+        restaurants.address = data.get('address')
+        restaurants.phone_number = data.get('phone_number')
+        restaurants.description = data.get('description')
+        restaurants.save()
+        return redirect('/')
 
-#         recipe.recipe_name = recipe_name
-#         recipe.recipe_description = recipe_description
-#         if recipe_image:
-#             recipe.recipe_image = recipe_image
-#         recipe.save()
-#         return redirect('/')
-
-#     context = {'recipe': recipe}
-#     return render(request, 'update_recipe.html', context)
+    context = {'restaurants': restaurants}
+    return render(request, 'update_restaurant.html', context)
