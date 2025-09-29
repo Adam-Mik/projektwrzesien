@@ -24,7 +24,7 @@ urlpatterns = [
     path('', include('restaurants.urls')),
     path('restaurants/', include('restaurants.urls')),
     path('bookings/', include('bookings.urls')),
-    path('api/', include('restaurants.urls')),
-    # path('api/bookings/', include('bookings.urls')),
-    path('api/', include('bookings.urls')),
+    # path('api/', include('restaurants.urls')),
+    # # path('api/bookings/', include('bookings.urls')),
+    # path('api/', include('bookings.urls')),
 ]

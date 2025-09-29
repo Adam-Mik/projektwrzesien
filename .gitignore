@@ -1,0 +1,49 @@
+# Python
+############
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environment (Środowisko wirtualne)
+############
+venv/
+env/
+/bin/
+/include/
+/lib/
+/lib64/
+/pyvenv.cfg
+.venv
+
+# Operating System Files (Pliki systemowe)
+############
+.DS_Store
+.vscode/
+
+# Django
+############
+# Bazy danych (SQLite)
+*.sqlite3
+db.sqlite3
+
+# Generowane pliki migracji
+# Wykluczamy tylko puste __init__.py w katalogach migracji,
+# ale trzymamy same pliki migracji (0001_initial.py itd.)
+# Zazwyczaj to nie jest konieczne, ale bywa używane.
+# */migrations/*.py
+
+# Statyczne pliki (generowane przez collectstatic)
+# Pamiętaj, aby nazwa katalogu zgadzała się z STATIC_ROOT
+/staticfiles/
+/static_root/
+
+# Media (Pliki użytkowników)
+# Pamiętaj, aby nazwa katalogu zgadzała się z MEDIA_ROOT
+/media/
+
+# IDE/Editor files (Pliki IDE/Edytora)
+############
+.idea/
+*.swp
+*~

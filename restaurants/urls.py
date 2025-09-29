@@ -5,8 +5,9 @@ from .views import (
     TableList,
     TableDetail,
     restaurant_list_view,
-    table_list_view
+    table_list_view,
 )
+from . import views
 
 urlpatterns = [
     # Frontend routes
@@ -18,4 +19,7 @@ urlpatterns = [
     path('api/restaurants/<int:pk>/', RestaurantDetail.as_view(), name='restaurant-detail'),
     path('api/tables/', TableList.as_view(), name='table-list'),
     path('api/tables/<int:pk>/', TableDetail.as_view(), name='table-detail'),
+    
+    # New post method
+    path('restaurants/add', views.restaurants, name='restaurant_list_create'),
 ]
