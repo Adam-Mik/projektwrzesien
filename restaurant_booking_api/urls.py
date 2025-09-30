@@ -17,18 +17,14 @@ Including another URLconf
 from django import views
 from django.contrib import admin
 from django.urls import path, include
-from restaurants.views import home_view
+
 # import restaurants.views
 from restaurants.views import restaurants_table
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', home_view, name='home'),
     path('', restaurants_table, name='restaurant_table'),
     path('', include('restaurants.urls')),
     path('restaurants/', include('restaurants.urls')),
     path('bookings/', include('bookings.urls')),
-    # path('api/', include('restaurants.urls')),
-    # # path('api/bookings/', include('bookings.urls')),
-    # path('api/', include('bookings.urls')),
 ]

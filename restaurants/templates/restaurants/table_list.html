@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista Stolików</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block start %} 
+
     <h1>Dostępne Stoliki</h1>
     <div id="tables-container"></div>
 
@@ -27,5 +23,6 @@
             })
             .catch(error => console.error('Błąd:', error));
     </script>
-</body>
-</html>
+
+
+{% endblock %}

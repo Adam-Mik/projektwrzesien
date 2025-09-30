@@ -19,10 +19,6 @@ class TableDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Table.objects.all()
     serializer_class = TableSerializer
 
-
-def home_view(request):
-    return render(request, 'home.html')
-
 def restaurant_list_view(request):
     return render(request, 'restaurants/restaurant_list.html')
 
