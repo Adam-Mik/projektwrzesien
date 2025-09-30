@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista Rezerwacji</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; }
-        .booking { margin-bottom: 15px; border: 1px solid #ccc; padding: 10px; }
-        .booking-item { font-weight: bold; }
-    </style>
-</head>
-<body>
+{% extends "base.html" %}
+{% block start %} 
+
     <h1>Lista Rezerwacji</h1>
     <div id="bookings-container">
         </div>
@@ -63,5 +54,5 @@
                 container.innerHTML = '<p>Nie udało się załadować rezerwacji. Spróbuj ponownie później.</p>';
             });
     </script>
-</body>
-</html>
+
+{% endblock %}

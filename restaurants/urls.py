@@ -21,8 +21,8 @@ urlpatterns = [
     path('api/tables/<int:pk>/', TableDetail.as_view(), name='table-detail'),
     
     # New post method
+    path('', views.restaurants_table, name='restaurant_table'),
     path('restaurants/add', views.restaurants, name='restaurant_list_create'),
-    path('restaurants/table', views.restaurants_table, name='restaurant_table'),
     path('restaurants/update/<id>', views.update_restaurant, name='update_restaurant'),
     path('restaurants/delete/<id>', views.delete_restaurant, name='delete_restaurant'),
 ]

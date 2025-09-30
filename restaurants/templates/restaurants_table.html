@@ -1,15 +1,5 @@
 {% extends "base.html" %}
 {% block start %} 
-
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<style>
-  .text{
-    color: rgb(30, 0, 162);
-    font-weight: bold;
-  }
-</style>
-
-
  
 <div class="container mt-5">
   <h2 class="text  text-center"> Restaurants </h2>
@@ -21,9 +11,9 @@
           <div class="max-auto col-6">
             <div class="form-group">
               <label for="exampleInputEmail1">Search Restaurant</label>
-              <input name="search" type="text" class="form-control">
+              <input name="search" type="text" class="form-control mt-1">
             </div>
-            <button type="submit" class="btn btn-primary "> Search</button>
+            <button type="submit" class="btn btn-primary mt-3"> Search</button>
           </form>
         </div>
       </div>
@@ -47,10 +37,10 @@
             <td>{{restaurant.description}}</td>
             <td>{{restaurant.address}}</td>
             <td>{{restaurant.phone_number}}</td>
-                <td>
-                    <a href="/restaurants/delete/{{restaurant.id }}" class="btn btn-danger m-2">Delete</a>
-                    <a href="/restaurants/update/{{restaurant.id }}" class="btn btn-success">Update</a>
-                </td>
+            <td>
+                <a href="/restaurants/delete/{{restaurant.id }}" class="btn btn-danger m-2">Delete</a>
+                <a href="/restaurants/update/{{restaurant.id }}" class="btn btn-success">Update</a>
+            </td>
           </tr>
           {% endfor %}
         </tbody>
