@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block start %} 
+ 
+<div class="container mt-5">
+  <h2 class="text  text-center"> Information about the restaurant: </h2>
+    <div class="container mt-3">    
+        <div class=" mt-1">Name: {{restaurant.name}}</div>
+        <div class=" mt-1">Description: {{restaurant.description}}</div>
+        <div class=" mt-1">Address: {{restaurant.address}}</div>
+        <div class=" mt-1">Phone Number: {{restaurant.phone_number}}</div>
+    </div> 
+    <a href="/bookings/add?restaurant_id={{ restaurant.id }}" class="btn btn-primary m-3">Make a Reservation</a>
+</div>
+ 
+{% endblock %}

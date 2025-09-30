@@ -25,4 +25,5 @@ urlpatterns = [
     path('restaurants/add', views.restaurants, name='restaurant_list_create'),
     path('restaurants/update/<id>', views.update_restaurant, name='update_restaurant'),
     path('restaurants/delete/<id>', views.delete_restaurant, name='delete_restaurant'),
+    path('<int:pk>/', views.restaurant_detail_view, name='restaurant_detail'),
 ]

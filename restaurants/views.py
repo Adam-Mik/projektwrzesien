@@ -27,7 +27,11 @@ def table_list_view(request):
 
 
 #------------------------------ Additional Context -----------------------------#
-#TODO Sprawdź czy działa dodawanie
+def restaurant_detail_view(request, pk):
+    restaurant = Restaurant.objects.get(pk=pk)
+    context = {'restaurant': restaurant}
+    return render(request, 'restaurants/detail_restaurant.html', context)
+
 def restaurants_table(request):
     queryset = Restaurant.objects.all()
     if request.GET.get('search'):

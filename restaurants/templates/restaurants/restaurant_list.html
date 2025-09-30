@@ -1,37 +1,60 @@
 {% extends "base.html" %}
+
 {% block start %} 
 
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista Restauracji</title>
-</head>
-<body>
-    <h1>Dostępne Restauracje</h1>
-    <div id="restaurants-container"></div>
+<div class="container my-5">
+    
+    <h1 class="mb-4">Dostępne Restauracje</h1>
+    
+    <div id="restaurants-container">
+        </div>
+</div>
 
-    <script>
-        fetch('/api/restaurants/')
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('restaurants-container');
-                if (data.length === 0) {
-                    container.innerHTML = '<p>Brak dostępnych restauracji.</p>';
-                } else {
-                    const ul = document.createElement('ul');
-                    data.forEach(restaurant => {
-                        const li = document.createElement('li');
-                        li.textContent = `${restaurant.name}`;
-                        ul.appendChild(li);
-                    });
-                    container.appendChild(ul);
-                }
-            })
-            .catch(error => console.error('Błąd:', error));
-    </script>
-</body>
-</html>
+<script>
+    fetch('/api/restaurants/')
+        .then(response => {
+            if (!response.ok) {
+                // Rzuca błąd, jeśli status HTTP nie jest 2xx
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const container = document.getElementById('restaurants-container');
+            
+            if (data.length === 0) {
+                // Użycie alertu Bootstrapa, gdy lista jest pusta
+                container.innerHTML = '<div class="alert alert-info" role="alert">Brak dostępnych restauracji.</div>';
+            } else {
+                // 1. Tworzymy element <ul> z klasą 'list-group'
+                const ul = document.createElement('ul');
+                ul.className = 'list-group shadow-sm'; // Klasa list-group z cieniem
+                
+                data.forEach(restaurant => {
+                    const li = document.createElement('li');
+                    
+                    // 2. Dodajemy klasę 'list-group-item' do każdego elementu <li>
+                    li.className = 'list-group-item list-group-item-action d-flex justify-content-between align-items-center';
 
+                    // 3. Dodajemy link
+                    li.innerHTML = `
+                        <a href="/restaurants/${restaurant.id}/" class="text-decoration-none fw-bold">
+                            ${restaurant.name}
+                        </a>
+                        <span class="text-primary">&rarr;</span> 
+                    `;
+                    
+                    ul.appendChild(li);
+                });
+                
+                container.appendChild(ul);
+            }
+        })
+        .catch(error => {
+            const container = document.getElementById('restaurants-container');
+            container.innerHTML = `<div class="alert alert-danger" role="alert">Wystąpił błąd podczas ładowania danych: ${error.message}</div>`;
+            console.error('Błąd ładowania danych:', error);
+        });
+</script>
 
 {% endblock %}
