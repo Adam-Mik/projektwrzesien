@@ -9,7 +9,7 @@
         <div class=" mt-1">Address: {{restaurant.address}}</div>
         <div class=" mt-1">Phone Number: {{restaurant.phone_number}}</div>
     </div> 
-    <a href="/bookings/add?restaurant_id={{ restaurant.id }}" class="btn btn-primary m-3">Make a Reservation</a>
+    <a href="/bookings/{{ restaurant.id }}" class="btn btn-primary m-3">Make a Reservation</a>
 </div>
  
 {% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block start %}
+    
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-9 col-sm-12">
+                
+                <form class="card p-4 shadow-lg" method="post" action="." enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <h2 class="text-center mb-4" style="color: #007bff; font-weight: 600;">
+                        Rezerwacja Restauracji dla {{ restaurant.name }}
+                    </h2>
+                    
+                    <h4 class="border-bottom pb-2 mb-4 text-muted">Dodaj Rezerwację</h4>
+                    
+                    <div class="mb-3">
+                        <label for="id_user" class="form-label">Wybierz Użytkownika</label>
+                        <select name="user" id="id_user" class="form-select" required>
+                            {% for user in all_users %}
+                                <option value="{{ user.pk }}">{{ user.username }} (ID: {{ user.pk }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                   <div class="mb-3">
+                        <label for="id_table" class="form-label">Wybierz Stolik</label>
+                        <select name="table" id="id_table" class="form-select" required>
+                            <option value="">-- Wybierz stolik --</option>
+                            {% for table in available_tables %}
+                                <option value="{{ table.pk }}">
+                                    Stolik #{{ table.pk }} (Max {{ table.capacity }} osób)
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_start_time" class="form-label">Godzina Rozpoczęcia</label>
+                        <input name="start_time" id="id_start_time" type="datetime-local" class="form-control" required> 
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_end_time" class="form-label">Godzina Zakończenia</label>
+                        <input name="end_time" id="id_end_time" type="datetime-local" class="form-control" required> 
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_number_of_guests" class="form-label">Liczba Gości</label>
+                        <input name="number_of_guests" id="id_number_of_guests" type="number" class="form-control" min="1" max="15" required>
+                    </div>
+                    
+                    <hr>
+                    <button type="submit" class="btn btn-primary mt-3 w-100">
+                        Zarezerwuj Stolik
+                    </button>
+                    
+                </form>
+
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
