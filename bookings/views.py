@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from .serializers import BookingSerializer
 from django.shortcuts import render, redirect, get_object_or_404
 
+from django.http import JsonResponse
 
 # Widok dla listy i tworzenia rezerwacji
 class BookingListCreate(generics.ListCreateAPIView):
@@ -63,3 +64,20 @@ def booking_create(request, pk):
         'available_tables': available_tables
     }
     return render(request, 'bookings/booking_form.html', context)
+
+
+def calendar_data_feed(request, restaurant_pk):
+    # Używamy restaurant_pk zamiast pk dla spójności z URL
+    bookings = Booking.objects.filter(restaurant_id=restaurant_pk)
+    
+    events = []
+    for booking in bookings:
+        events.append({
+            'title': f"Stolik {booking.table.pk} (Zajęty)", 
+            'color': '#dc3545', 
+            # Użyjemy isoformat() do poprawnego formatowania daty/czasu dla JS
+            'start': booking.start_time.isoformat(), 
+            'end': booking.end_time.isoformat(),
+            'url': f'/bookings/{booking.pk}/detail/' 
+        })
+    return JsonResponse(events, safe=False)

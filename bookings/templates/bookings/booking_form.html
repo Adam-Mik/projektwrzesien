@@ -3,6 +3,15 @@
 {% block start %}
     
     <div class="container py-5">
+        <h2 class="text-center mb-4" style="color: #007bff; font-weight: 600;">
+            Dostępność dla {{ restaurant.name }}
+        </h2>
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-10">
+                <div id='calendar' class="shadow p-3 bg-white rounded"></div>
+            </div>
+        </div>
+
         <div class="row justify-content-center">
             <div class="col-lg-7 col-md-9 col-sm-12">
                 
@@ -10,7 +19,7 @@
                     {% csrf_token %}
                     
                     <h2 class="text-center mb-4" style="color: #007bff; font-weight: 600;">
-                        Rezerwacja Restauracji dla {{ restaurant.name }}
+                        Wypełnij Szczegóły Rezerwacji
                     </h2>
                     
                     <h4 class="border-bottom pb-2 mb-4 text-muted">Dodaj Rezerwację</h4>
@@ -24,7 +33,7 @@
                         </select>
                     </div>
 
-                   <div class="mb-3">
+                    <div class="mb-3">
                         <label for="id_table" class="form-label">Wybierz Stolik</label>
                         <select name="table" id="id_table" class="form-select" required>
                             <option value="">-- Wybierz stolik --</option>
@@ -62,4 +71,56 @@
         </div>
     </div>
     
+
+{% block scripts %}
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            
+            // POPRAWKA: ID RESTAURACJI MUSI BYĆ W CUDZYSŁOWACH
+            // Używamy restaurant.pk, które jest bezpieczniejsze i powinno być w kontekście
+            var restaurantPk = "{{ restaurant.pk }}"; 
+            
+            // Sprawdzamy, czy zmienna jest zdefiniowana i niepusta, aby uniknąć błędów
+            if (!restaurantPk) {
+                console.error("Błąd: Nie zdefiniowano ID restauracji (restaurant.pk).");
+                return; // Zatrzymaj inicjalizację kalendarza, jeśli brakuje ID
+            }
+            
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek', 
+                locale: 'pl', 
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                editable: false,
+                selectable: true, 
+                
+                // POPRAWIONE POBIERANIE DANYCH: Używamy zmiennej JS
+                // Musisz mieć dodany URL: path('<int:restaurant_pk>/calendar-feed/', ...)
+                events: `/bookings/${restaurantPk}/calendar-feed/`, 
+                
+                // Wypełnianie pól formularza po zaznaczeniu terminu
+                select: function(info) {
+                    // Wypełnianie pola 'Godzina Rozpoczęcia'
+                    document.getElementById('id_start_time').value = info.startStr.substring(0, 16); 
+                    
+                    // Wypełnianie pola 'Godzina Zakończenia'
+                    document.getElementById('id_end_time').value = info.endStr.substring(0, 16);
+                    
+                    calendar.unselect(); 
+                    document.getElementById('id_table').focus();
+                },
+            });
+
+            calendar.render();
+        });
+    </script>
+{% endblock %}
+
+
 {% endblock %}
