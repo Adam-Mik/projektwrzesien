@@ -2,7 +2,7 @@ from rest_framework import generics
 from .models import Booking, Table
 from restaurants.models import Restaurant 
 from django.contrib.auth import get_user_model
-from .serializers import BookingSerializer
+from .serializers import BookingSerializer, TableSerializer, UserSerializer
 from django.shortcuts import render, redirect, get_object_or_404
 
 from django.http import JsonResponse
@@ -74,10 +74,26 @@ def calendar_data_feed(request, restaurant_pk):
     for booking in bookings:
         events.append({
             'title': f"Stolik {booking.table.pk} (Zajęty)", 
-            'color': '#dc3545', 
+            'color': "#007bff", 
             # Użyjemy isoformat() do poprawnego formatowania daty/czasu dla JS
             'start': booking.start_time.isoformat(), 
             'end': booking.end_time.isoformat(),
             'url': f'/bookings/{booking.pk}/detail/' 
         })
     return JsonResponse(events, safe=False)
+
+
+class TableListAPIView(generics.ListAPIView):
+    serializer_class = TableSerializer
+
+    def get_queryset(self):
+        # Pobierz ID restauracji z URL
+        restaurant_pk = self.kwargs['restaurant_pk']
+        # Zwróć tylko stoliki należące do tej restauracji
+        return Table.objects.filter(restaurant_id=restaurant_pk)
+    
+
+class UserListAPIView(generics.ListAPIView):
+    # Możesz dodać ograniczenia, jeśli nie chcesz zwracać wszystkich użytkowników
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

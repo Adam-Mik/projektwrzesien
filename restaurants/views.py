@@ -7,9 +7,10 @@ class RestaurantList(generics.ListCreateAPIView):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
 
-class RestaurantDetail(generics.RetrieveUpdateDestroyAPIView):
+class RestaurantDetailAPIView(generics.RetrieveAPIView):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
+    lookup_field = 'pk'
 
 class TableList(generics.ListCreateAPIView):
     queryset = Table.objects.all()
