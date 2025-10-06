@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from .models import Restaurant, Table
 from .serializers import RestaurantSerializer, TableSerializer
+from rest_framework.permissions import AllowAny
 
 class RestaurantList(generics.ListCreateAPIView):
     queryset = Restaurant.objects.all()
@@ -84,3 +85,10 @@ def update_restaurant(request, id):
 
     context = {'restaurants': restaurants}
     return render(request, 'update_restaurant.html', context)
+
+
+class RestaurantViewSet(viewsets.ModelViewSet):
+    queryset = Restaurant.objects.all()
+    serializer_class = RestaurantSerializer
+    # Na razie AllowAny, żeby widzieć Home; później IsAuthenticated
+    permission_classes = [AllowAny] 
